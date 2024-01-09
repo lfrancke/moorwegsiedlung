@@ -2,7 +2,8 @@ import * as pmtiles from "pmtiles";
 import maplibregl, {NavigationControl} from "maplibre-gl";
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-let PMTILES_URL = `${location.protocol}//${location.host}${location.pathname}moorwegsiedlung.pmtiles`;
+let BASE_URL = `${location.protocol}//${location.host}${location.pathname}`;
+let PMTILES_URL = `${BASE_URL}/moorwegsiedlung.pmtiles`;
 
 const protocol = new pmtiles.Protocol();
 maplibregl.addProtocol("pmtiles", protocol.tile);
@@ -19,9 +20,9 @@ p.getHeader().then(h  => {
     maxBounds: [[h.minLon, h.minLat], [h.maxLon, h.maxLat]],
     style: {
       version: 8,
-      glyphs: "https://cdn.protomaps.com/fonts/pbf/{fontstack}/{range}.pbf",
+      glyphs: `${BASE_URL}/fonts/{fontstack}/{range}.pbf`,
       sources: {
-        "example_source": {
+        "moorwegsiedlung": {
           type: "vector",
           url: `pmtiles://${PMTILES_URL}`,
           attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>'
@@ -30,7 +31,7 @@ p.getHeader().then(h  => {
       layers: [
         {
           "id": "buildings",
-          "source": "example_source",
+          "source": "moorwegsiedlung",
           "source-layer": "landuse",
           "type": "fill",
           "paint": {
@@ -39,7 +40,7 @@ p.getHeader().then(h  => {
         },
         {
           "id": "roads",
-          "source": "example_source",
+          "source": "moorwegsiedlung",
           "source-layer": "roads",
           "type": "line",
           "paint": {
@@ -48,7 +49,7 @@ p.getHeader().then(h  => {
         },
         {
           "id": "mask",
-          "source": "example_source",
+          "source": "moorwegsiedlung",
           "source-layer": "mask",
           "type": "fill",
           "paint": {
@@ -58,7 +59,7 @@ p.getHeader().then(h  => {
         {
           id: "roads_minor",
           type: "line",
-          source: "example_source",
+          source: "moorwegsiedlung",
           "source-layer": "roads",
           filter: [
             "all",
@@ -83,7 +84,7 @@ p.getHeader().then(h  => {
         {
           id: "roads_labels",
           type: "symbol",
-          source: "example_source",
+          source: "moorwegsiedlung",
           "source-layer": "roads",
           layout: {
             "symbol-placement": "line",
