@@ -2,9 +2,12 @@ import * as pmtiles from "pmtiles";
 import maplibregl, {NavigationControl} from "maplibre-gl";
 import 'maplibre-gl/dist/maplibre-gl.css';
 
+
+const PMTILES_URL = "/moorwegsiedlung.pmtiles";
+
 const protocol = new pmtiles.Protocol();
 maplibregl.addProtocol("pmtiles", protocol.tile);
-const p = new pmtiles.PMTiles("/Wedel.pmtiles");
+const p = new pmtiles.PMTiles(PMTILES_URL);
 protocol.add(p);
 
 p.getHeader().then(h  => {
@@ -21,7 +24,7 @@ p.getHeader().then(h  => {
       sources: {
         "example_source": {
           type: "vector",
-          url: "pmtiles://moorwegsiedlung.pmtiles",
+          url: `pmtiles://${PMTILES_URL}`,
           attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>'
         }
       },
