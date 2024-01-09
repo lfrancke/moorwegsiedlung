@@ -2,7 +2,6 @@ import * as pmtiles from "pmtiles";
 import maplibregl, {NavigationControl} from "maplibre-gl";
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-
 const PMTILES_URL = "/moorwegsiedlung.pmtiles";
 
 const protocol = new pmtiles.Protocol();
