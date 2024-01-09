@@ -21,7 +21,7 @@ p.getHeader().then(h  => {
       sources: {
         "example_source": {
           type: "vector",
-          url: "pmtiles://Wedel.pmtiles",
+          url: "pmtiles://moorwegsiedlung.pmtiles",
           attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>'
         }
       },
