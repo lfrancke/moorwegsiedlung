@@ -33,14 +33,25 @@ p.getHeader().then(h => {
     },
   });
   map.addControl(new NavigationControl({}), 'top-right');
+  map.addControl(new maplibregl.GeolocateControl({
+    positionOptions: {
+      enableHighAccuracy: true
+    },
+    trackUserLocation: true
+  }));
+
 
   map.on('load', () => {
     // If this is not included there will be grey screens on some mobile browsers
     // See also: https://github.com/mapbox/mapbox-gl-js/issues/8982
     // This only seems to happen on mobile, and I'm not sure why.
     // If I use "desktop mode" on a mobile chrome it works
-    map.once('load', () => { map.resize()})
-    map.once('render', () => { map.resize()})
+    map.once('load', () => {
+      map.resize()
+    })
+    map.once('render', () => {
+      map.resize()
+    })
     /*
     map.addLayer({
       'id': '3d-buildings',

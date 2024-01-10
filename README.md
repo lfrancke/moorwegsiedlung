@@ -1,5 +1,7 @@
 # Moorwegsiedlung
 
+This is deployed at: https://lfrancke.github.io/moorwegsiedlung/
+
 ## Fonts
 
 I followed the [instructions](https://docs.protomaps.com/basemaps/maplibre#fonts) on the docs page to download the necessary fonts locally: https://codeload.github.com/protomaps/basemaps-assets/zip/refs/heads/main
