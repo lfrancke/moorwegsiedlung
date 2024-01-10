@@ -4,7 +4,6 @@
 
 I followed the [instructions](https://docs.protomaps.com/basemaps/maplibre#fonts) on the docs page to download the necessary fonts locally: https://codeload.github.com/protomaps/basemaps-assets/zip/refs/heads/main
 Last downloaded: adc3c3638ead91a59d1b0640e89a9af1e037c227
-The folders need to be renamed after unzipping!
 
 ## Maps Download
 
@@ -23,7 +22,11 @@ The folders need to be renamed after unzipping!
 
 This creates a larger file than necessary because it seems to download low resolution data for the whole world despite setting maxzoom. 
                   
-## Notes
+## Notes / Resources
 
 - https://github.com/systemed/tilemaker just merged (December 2023) pmtiles support but has not made a release yet
 - https://github.com/felt/tippecanoe another option
+- https://github.com/maputnik/editor
+                     
+
+Unimplemented Type 4 -> Fonts not available

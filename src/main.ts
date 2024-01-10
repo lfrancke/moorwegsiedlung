@@ -1,6 +1,7 @@
 import * as pmtiles from "pmtiles";
 import maplibregl, {NavigationControl} from "maplibre-gl";
 import 'maplibre-gl/dist/maplibre-gl.css';
+import layers from "protomaps-themes-base";
 
 let BASE_URL = `${location.protocol}//${location.host}${location.pathname}`;
 let PMTILES_URL = `${BASE_URL}/moorwegsiedlung.pmtiles`;
@@ -10,7 +11,7 @@ maplibregl.addProtocol("pmtiles", protocol.tile);
 const p = new pmtiles.PMTiles(PMTILES_URL);
 protocol.add(p);
 
-p.getHeader().then(h  => {
+p.getHeader().then(h => {
   const map = new maplibregl.Map({
     container: "map",
     zoom: h.maxZoom - 2,
@@ -28,78 +29,23 @@ p.getHeader().then(h  => {
           attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>'
         }
       },
-      layers: [
-        {
-          "id": "buildings",
-          "source": "moorwegsiedlung",
-          "source-layer": "landuse",
-          "type": "fill",
-          "paint": {
-            "fill-color": "steelblue"
-          }
-        },
-        {
-          "id": "roads",
-          "source": "moorwegsiedlung",
-          "source-layer": "roads",
-          "type": "line",
-          "paint": {
-            "line-color": "black"
-          }
-        },
-        {
-          "id": "mask",
-          "source": "moorwegsiedlung",
-          "source-layer": "mask",
-          "type": "fill",
-          "paint": {
-            "fill-color": "white"
-          }
-        },
-        {
-          id: "roads_minor",
-          type: "line",
-          source: "moorwegsiedlung",
-          "source-layer": "roads",
-          filter: [
-            "all",
-            ["==", "pmap:level", 0],
-            ["==", "pmap:kind", "minor_road"],
-          ],
-          paint: {
-            "line-color": "red",
-            "line-width": [
-              "interpolate",
-              ["exponential", 1.6],
-              ["zoom"],
-              12,
-              0,
-              12.5,
-              0.5,
-              20,
-              32,
-            ],
-          },
-        },
-        {
-          id: "roads_labels",
-          type: "symbol",
-          source: "moorwegsiedlung",
-          "source-layer": "roads",
-          layout: {
-            "symbol-placement": "line",
-            "text-field": ["get", "name"],
-            "text-size": 12,
-            "text-font": ["NotoSans-Regular"],
-          },
-          paint: {
-            "text-color": "blue",
-            "text-halo-color": "green",
-            "text-halo-width": 2,
-          },
-        },
-      ]
+      layers: layers("moorwegsiedlung", "light")
     },
   });
   map.addControl(new NavigationControl({}), 'top-right');
+
+  map.on('load', () => {
+    map.addLayer({
+      'id': '3d-buildings',
+      'source': 'moorwegsiedlung',
+      'source-layer': 'buildings',
+      'type': 'fill-extrusion',
+      'minzoom': 15,
+      'paint': {
+        'fill-extrusion-color': ['interpolate', ['linear'], ['get', 'height'], 0, 'lightgray', 200, 'royalblue', 400, 'lightblue'],
+        'fill-extrusion-height': ['interpolate', ['linear'], ['zoom'], 15, 0, 16, ['get', 'height']],
+        'fill-extrusion-base': ['case', ['>=', ['get', 'zoom'], 16], ['get', 'height'], 0]
+      }
+    },);
+  });
 });
