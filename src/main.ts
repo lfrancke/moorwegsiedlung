@@ -35,6 +35,7 @@ p.getHeader().then(h => {
   map.addControl(new NavigationControl({}), 'top-right');
 
   map.on('load', () => {
+    /*
     map.addLayer({
       'id': '3d-buildings',
       'source': 'moorwegsiedlung',
@@ -47,5 +48,6 @@ p.getHeader().then(h => {
         'fill-extrusion-base': ['case', ['>=', ['get', 'zoom'], 16], ['get', 'height'], 0]
       }
     },);
+     */
   });
 });
