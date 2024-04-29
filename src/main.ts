@@ -2,6 +2,7 @@ import * as pmtiles from "pmtiles";
 import maplibregl, {NavigationControl} from "maplibre-gl";
 import 'maplibre-gl/dist/maplibre-gl.css';
 import layers from "protomaps-themes-base";
+import {parse} from 'csv-parse/browser/esm/sync';
 
 let BASE_URL = `${location.protocol}//${location.host}${location.pathname}`;
 let PMTILES_URL = `${BASE_URL}/moorwegsiedlung.pmtiles`;
@@ -41,7 +42,7 @@ p.getHeader().then(h => {
   }));
 
 
-  map.on('load', () => {
+  map.on('load', async () => {
     // If this is not included there will be grey screens on some mobile browsers
     // See also: https://github.com/mapbox/mapbox-gl-js/issues/8982
     // This only seems to happen on mobile, and I'm not sure why.
@@ -52,6 +53,21 @@ p.getHeader().then(h => {
     map.once('render', () => {
       map.resize()
     })
+
+    const locations = await fetchAndParseCSV(
+      "MWS Flohmarkt Teilnehmerliste Mai 2024 - 2024-04-29T22 02.csv");
+    console.log(locations.length);
+
+
+    // Add each location as a marker to the map
+    locations.forEach((record: any) => {
+      new maplibregl.Marker()
+        .setLngLat([record["Longitude"], record["Latitude"]])
+        .setPopup(new maplibregl.Popup().setHTML(`<h3>${record["Straße"]} ${record["Hausnummer"]}</h3><p>${record["Was bietet Ihr an?"]}</p><p>${record["Sonstige Hinweise (Öffentlich)"]}</p>`))
+        .addTo(map);
+    });
+
+
     /*
     map.addLayer({
       'id': '3d-buildings',
@@ -68,3 +84,13 @@ p.getHeader().then(h => {
      */
   });
 });
+
+async function fetchAndParseCSV(url: string): Promise<any> {
+  const response = await fetch(url);
+  const csvRaw = await response.text();
+
+  return parse(csvRaw, {
+    columns: true,
+    skip_empty_lines: true
+  });
+}
