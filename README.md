@@ -78,3 +78,12 @@ This favicon was generated using the following font:
 - Font Author: Copyright (c) 2011 by LatinoType Limitada (info@latinotype.com), with Reserved Font Names "Fugaz" and "Fugaz One"
 - Font Source: http://fonts.gstatic.com/s/fugazone/v19/rax_HiWKp9EAITukFslMBBJek0vA8A.ttf
 - Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))
+
+## Map Style & Sprites
+
+This comes from the osm-liberty project and uses various licenses (BSD, CC0 1.0, etc.)
+
+## Fonts
+
+https://github.com/protomaps/basemaps-assets
+SIL Open Font License
