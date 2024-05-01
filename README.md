@@ -15,7 +15,7 @@ The sprites and style come from osm-liberty: https://github.com/maputnik/osm-lib
                                      
 ### Prebuilt
 
-- https://bboxfinder.com/#53.588429,9.712515,53.605417,9.738092 results in the rough bounding box: 9.712515,53.588429,9.738092,53.605417
+- https://bboxfinder.com/#53.588748,9.713459,53.601635,9.734724 results in the rough bounding box: 9.713459,53.588748,9.734724,53.601635
 - Download latest release of pmtiles: https://github.com/protomaps/go-pmtiles/releases
 - Find a planet build to use next here: https://maps.protomaps.com/builds/
 - Run pmtiles:
@@ -24,7 +24,7 @@ The sprites and style come from osm-liberty: https://github.com/maputnik/osm-lib
 ./pmtiles extract \
   https://build.protomaps.com/20240109.pmtiles \
   moorwegsiedlung.pmtiles \
-  --bbox=9.712515,53.588429,9.738092,53.605417 \
+  --bbox=9.713459,53.588748,9.734724,53.601635
   --maxzoom=14
 ```
 
@@ -32,13 +32,22 @@ This creates a larger file than necessary because it seems to download low resol
      
 ### Custom
 
-To create a custom map which includes features that are not part of the pre-built Protomaps one needs to build a custom map.
+To create a custom map, which includes features that are not part of the pre-built Protomaps one needs to build a custom map.
 
 - Download a OSM PBF extract for e.g. Schleswig-Holstein from Geofabrik
 - Use Tilemaker or Planetiler to generate a custom pmtile
 - Use the pmtiles CLI to only extract the bits you need
 - TODO: It must be possible to cut the bit one needs out of the PBF in the first place to save some space/time during processing
 
+
+#### Planetiler
+
+- Clone https://github.com/openmaptiles/planetiler-openmaptiles
+- `./mvnw clean package`
+- The next step will download https://download.geofabrik.de/europe/germany/schleswig-holstein.html
+- `java -jar target/*with-deps.jar --force --download --area=schleswig-holstein --output=sh.pmtiles` 
+- `pmtiles extract sh.pmtiles mws.pmtiles --bbox=9.713459,53.588748,9.734724,53.601635 --maxzoom=14`
+- Copy the resulting mws.pmtiles file to this project, rename, change code to reference it: Done
                   
 ## Notes / Resources
                                         

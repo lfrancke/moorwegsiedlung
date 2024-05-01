@@ -55,14 +55,13 @@ p.getHeader().then(h => {
       map.resize()
     })
 
-    const locations = await fetchAndParseCSV(
-      "MWS Flohmarkt Teilnehmerliste Mai 2024 - 2024-04-29T22 02.csv");
+    const locations = await fetchAndParseCSV("2024-05-01 Teilnehmer.csv");
 
     // Add each location as a marker to the map
     locations.forEach((record: any) => {
       new maplibregl.Marker()
         .setLngLat([record["Longitude"], record["Latitude"]])
-        .setPopup(new maplibregl.Popup().setHTML(`<h3>${record["Straße"]} ${record["Hausnummer"]}</h3><p>${record["Was bietet Ihr an?"]}</p><p>${record["Sonstige Hinweise (Öffentlich)"]}</p>`))
+        .setPopup(new maplibregl.Popup().setHTML(`<h3>${record["Adresse"]}</h3><p>${record["Angebot"]}</p><p>${record["Sonstiges"]}</p>`))
         .addTo(map);
     });
   });
