@@ -55,7 +55,7 @@ p.getHeader().then(h => {
       map.resize()
     })
 
-    const locations = await fetchAndParseCSV("2024-05-01 Teilnehmer.csv");
+    const locations = await fetchAndParseCSV("2024-05-02 Teilnehmer.csv");
 
     // Add each location as a marker to the map
     locations.forEach((record: any) => {
