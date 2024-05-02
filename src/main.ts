@@ -5,7 +5,7 @@ import {parse} from 'csv-parse/browser/esm/sync';
 import {layers} from "./layers.ts";
 
 let BASE_URL = `${location.protocol}//${location.host}${location.pathname}`;
-let PMTILES_URL = `${BASE_URL}/2024-04-30-mws-omt.pmtiles`;
+let PMTILES_URL = `${BASE_URL}/2024-05-02-mws-omt.pmtiles`;
 
 const protocol = new pmtiles.Protocol();
 maplibregl.addProtocol("pmtiles", protocol.tile);
