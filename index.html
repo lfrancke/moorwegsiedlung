@@ -18,10 +18,38 @@
         width: 100vw;
         height: 100vh;
       }
+      #filters {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: white;
+        padding: 10px;
+        z-index: 1;
+        max-width: 80%;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        overflow-y: auto; /* Add scrolling if many categories */
+        max-height: 80vh; /* Limit the height on smaller screens */
+      }
+
+      /* Ensure text is easily readable and checkboxes are clickable */
+      #filters label {
+        display: block; /* Makes labels block to help with clicking */
+        margin-bottom: 5px; /* Adds space between checkboxes */
+      }
+
+      /* Media query for very small screens to adjust filter box placement */
+      @media (max-width: 480px) {
+        #filters {
+          top: 60px; /* Move down to avoid overlapping with top controls */
+          right: 10px; /* Align to the right side for better spacing */
+          left: auto; /* Adjust left positioning */
+          width: 90%; /* Potentially increase width on smaller screens */
+        }
+      }
     </style>
   </head>
   <body>
-    <div id="filters" style="position: absolute; top: 10px; left: 10px; background: white; padding: 10px; z-index: 1;">
+    <div id="filters" style="position: absolute; top: 10px; left: 10px; background: white; padding: 10px; z-index: 1; max-width: 90%; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
       <label><input type="checkbox" class="filter" value="Kleidung Kinder" checked/> Kleidung Kinder</label>
       <label><input type="checkbox" class="filter" value="Kleidung Erwachsene" checked/> Kleidung Erwachsene</label>
       <label><input type="checkbox" class="filter" value="Spielsachen" checked/> Spielsachen</label>
