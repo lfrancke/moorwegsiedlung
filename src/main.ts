@@ -57,12 +57,11 @@ if (header) {
   header.addEventListener('click', () => {
     const content = document.getElementById('filter-content');
     if (content) {
-      content.style.display = content.style.display === 'none' ? 'block' : 'none';
+      content.style.display = getComputedStyle(content).display === 'block' ? 'none' : 'block';
       header.classList.toggle('filter-content-visible');
     }
   });
 }
-
 
 
 p.getHeader().then(h => {
