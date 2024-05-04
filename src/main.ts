@@ -1,6 +1,6 @@
 import * as pmtiles from "pmtiles";
 import maplibregl, {
-  AttributionControl, FullscreenControl, Hash, NavigationControl, ScaleControl
+  FullscreenControl, NavigationControl, ScaleControl
 } from "maplibre-gl";
 import 'maplibre-gl/dist/maplibre-gl.css';
 import {parse} from 'csv-parse/browser/esm/sync';
