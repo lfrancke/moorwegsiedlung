@@ -18,47 +18,61 @@
         width: 100vw;
         height: 100vh;
       }
-      #filters {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        background: white;
+
+      #filter-header {
+        cursor: pointer;
         padding: 10px;
-        z-index: 1;
-        max-width: 80%;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        overflow-y: auto; /* Add scrolling if many categories */
-        max-height: 80vh; /* Limit the height on smaller screens */
+        font-weight: bold;
+        background-color: #f2f2f2; /* Light grey background */
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        user-select: none; /* Prevent text selection */
       }
 
-      /* Ensure text is easily readable and checkboxes are clickable */
-      #filters label {
-        display: block; /* Makes labels block to help with clicking */
-        margin-bottom: 5px; /* Adds space between checkboxes */
+      #filter-header:hover {
+        background-color: #e6e6e6; /* Slightly darker on hover */
       }
 
-      /* Media query for very small screens to adjust filter box placement */
-      @media (max-width: 480px) {
-        #filters {
-          top: 60px; /* Move down to avoid overlapping with top controls */
-          right: 10px; /* Align to the right side for better spacing */
-          left: auto; /* Adjust left positioning */
-          width: 90%; /* Potentially increase width on smaller screens */
-        }
+      /* Add and rotate the icon based on the state */
+      .filter-icon {
+        display: inline-block;
+        transition: transform 0.3s ease;
       }
+
+      .filter-content-visible .filter-icon {
+        transform: rotate(180deg); /* Rotate icon when content is visible */
+      }
+
+      .filter-label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      #filter-content {
+        display: none; /* Start with the content hidden */
+        max-height: 200px; /* Adjustable based on your needs */
+        overflow-y: auto; /* Enable scrolling */
+      }
+
+
+
     </style>
   </head>
   <body>
-    <div id="filters" style="position: absolute; top: 10px; left: 10px; background: white; padding: 10px; z-index: 1; max-width: 90%; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-      <label><input type="checkbox" class="filter" value="Kleidung Kinder" checked/> Kleidung Kinder</label>
-      <label><input type="checkbox" class="filter" value="Kleidung Erwachsene" checked/> Kleidung Erwachsene</label>
-      <label><input type="checkbox" class="filter" value="Spielsachen" checked/> Spielsachen</label>
-      <label><input type="checkbox" class="filter" value="Haushaltsartikel" checked/> Haushaltsartikel</label>
-      <label><input type="checkbox" class="filter" value="Elektrogeräte" checked/> Elektrogeräte</label>
-      <label><input type="checkbox" class="filter" value="Essen" checked/> Essen</label>
-      <label><input type="checkbox" class="filter" value="Sonstiges" checked/> Sonstiges</label>
+    <div id="filters">
+      <div id="filter-header">Kategorienfilter <span class="filter-icon">&#9660;</span></div>
+      <div id="filter-content" class="filter-content">
+        <label class="filter-label"><input type="checkbox" class="filter" value="Kleidung Kinder" checked/> Kleidung Kinder</label>
+        <label class="filter-label"><input type="checkbox" class="filter" value="Kleidung Erwachsene" checked/> Kleidung Erwachsene</label>
+        <label class="filter-label"><input type="checkbox" class="filter" value="Spielsachen" checked/> Spielsachen</label>
+        <label class="filter-label"><input type="checkbox" class="filter" value="Haushaltsartikel" checked/> Haushaltsartikel</label>
+        <label class="filter-label"><input type="checkbox" class="filter" value="Elektrogeräte" checked/> Elektrogeräte</label>
+        <label class="filter-label"><input type="checkbox" class="filter" value="Essen" checked/> Essen</label>
+        <label class="filter-label"><input type="checkbox" class="filter" value="Sonstiges" checked/> Sonstiges</label>
+      </div>
     </div>
-
 
     <div id="map"></div>
     <script type="module" src="/src/main.ts"></script>

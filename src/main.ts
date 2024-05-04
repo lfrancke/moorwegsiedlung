@@ -52,6 +52,17 @@ async function applyFilters() {
 }
 
 (document.getElementById('filters') as HTMLElement).addEventListener('change', () => applyFilters());
+const header = document.getElementById('filter-header');
+if (header) {
+  header.addEventListener('click', () => {
+    const content = document.getElementById('filter-content');
+    if (content) {
+      content.style.display = content.style.display === 'none' ? 'block' : 'none';
+      header.classList.toggle('filter-content-visible');
+    }
+  });
+}
+
 
 
 p.getHeader().then(h => {
