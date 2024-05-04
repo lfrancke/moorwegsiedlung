@@ -1,10 +1,10 @@
 import * as pmtiles from "pmtiles";
 import maplibregl, {
-  FullscreenControl, NavigationControl, ScaleControl
+  FullscreenControl, NavigationControl, ScaleControl, GeolocateControl
 } from "maplibre-gl";
 import 'maplibre-gl/dist/maplibre-gl.css';
-import {parse} from 'csv-parse/browser/esm/sync';
-import {layers} from "./layers.ts";
+import { parse } from 'csv-parse/browser/esm/sync';
+import { layers } from "./layers.ts";
 
 let BASE_URL = `${location.protocol}//${location.host}${location.pathname}`;
 let PMTILES_URL = `${BASE_URL}/2024-05-02-mws-omt.pmtiles`;
@@ -14,15 +14,52 @@ maplibregl.addProtocol("pmtiles", protocol.tile);
 const p = new pmtiles.PMTiles(PMTILES_URL);
 protocol.add(p);
 
+const allMarkers: maplibregl.Marker[] = [];
+
+async function fetchAndParseCSV(url: string): Promise<any> {
+  const response = await fetch(url);
+  const csvRaw = await response.text();
+
+  return parse(csvRaw, {
+    columns: true,
+    skip_empty_lines: true
+  });
+}
+
+async function applyFilters() {
+  const activeFilters: Set<string> = new Set(
+    Array.from(document.querySelectorAll<HTMLInputElement>(".filter:checked")).map(input => input.value)
+  );
+
+  if (activeFilters.size === 0) {
+     // If no filters are active, hide all markers
+     allMarkers.forEach(marker => {
+       marker.getElement().style.display = 'none';
+     });
+   } else {
+
+    allMarkers.forEach(marker => {
+      const angebotString: string = marker.getElement().dataset.angebot || "";
+      const angebot: string[] = angebotString.split(', ');
+      const sonstiges: string = marker.getElement().dataset.sonstiges || "";
+      const matchesCategory = angebot.some(item => activeFilters.has(item));
+      const matchesSonstiges = sonstiges !== "" && activeFilters.has("Sonstiges");
+      const isVisible = activeFilters.size === 0 || matchesCategory || matchesSonstiges;
+
+      marker.getElement().style.display = isVisible ? '' : 'none';
+    });
+  }
+}
+
+(document.getElementById('filters') as HTMLElement).addEventListener('change', () => applyFilters());
+
+
 p.getHeader().then(h => {
   const map = new maplibregl.Map({
     container: "map",
     zoom: 15.8,
     center: [9.724361, 53.595163],
     minZoom: 15,
-    attributionControl: {
-      customAttribution: "Stand: 4.5.2024 21:30 - <a href=\"https://www.mws-wedel.de\">mws-wedel.de<\a>"
-    },
     maxZoom: 20,
     maxBounds: [[h.minLon, h.minLat], [h.maxLon, h.maxLat]],
     style: {
@@ -38,9 +75,13 @@ p.getHeader().then(h => {
       },
       layers: layers("moorwegsiedlung")
     },
+    attributionControl: {
+      customAttribution: "Stand: 4.5.2024 21:30 - <a href=\"https://www.mws-wedel.de\">mws-wedel.de</a>"
+    }
   });
+
   map.addControl(new NavigationControl({}), 'top-right');
-  map.addControl(new maplibregl.GeolocateControl({
+  map.addControl(new GeolocateControl({
     positionOptions: {
       enableHighAccuracy: true
     },
@@ -50,35 +91,19 @@ p.getHeader().then(h => {
   map.addControl(new ScaleControl());
 
   map.on('load', async () => {
-    // If this is not included there will be grey screens on some mobile browsers
-    // See also: https://github.com/mapbox/mapbox-gl-js/issues/8982
-    // This only seems to happen on mobile, and I'm not sure why.
-    // If I use "desktop mode" on a mobile chrome it works.
-    map.once('load', () => {
-      map.resize()
-    })
-    map.once('render', () => {
-      map.resize()
-    })
+    map.resize();  // Address potential resizing issues on mobile
 
-    const locations = await fetchAndParseCSV("2024-05-04 Teilnehmer.csv");
+    const locations = await fetchAndParseCSV("2024-05-04 Teilnehmer v2.csv");
 
-    // Add each location as a marker to the map
     locations.forEach((record: any) => {
-      new maplibregl.Marker()
+      const marker = new maplibregl.Marker()
         .setLngLat([record["Longitude"], record["Latitude"]])
         .setPopup(new maplibregl.Popup().setHTML(`<h3>${record["Adresse"]}</h3><p>${record["Angebot"]}</p><p>${record["Sonstiges"]}</p>`))
         .addTo(map);
+
+      marker.getElement().dataset.angebot = record["Angebot"];
+      marker.getElement().dataset.sonstiges = record["Sonstiges"]; // Store the "Sonstiges" data in the marker for filtering
+      allMarkers.push(marker);
     });
   });
 });
-
-async function fetchAndParseCSV(url: string): Promise<any> {
-  const response = await fetch(url);
-  const csvRaw = await response.text();
-
-  return parse(csvRaw, {
-    columns: true,
-    skip_empty_lines: true
-  });
-}
