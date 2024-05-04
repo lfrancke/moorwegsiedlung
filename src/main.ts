@@ -1,5 +1,7 @@
 import * as pmtiles from "pmtiles";
-import maplibregl, {NavigationControl} from "maplibre-gl";
+import maplibregl, {
+  AttributionControl, FullscreenControl, Hash, NavigationControl, ScaleControl
+} from "maplibre-gl";
 import 'maplibre-gl/dist/maplibre-gl.css';
 import {parse} from 'csv-parse/browser/esm/sync';
 import {layers} from "./layers.ts";
@@ -15,9 +17,12 @@ protocol.add(p);
 p.getHeader().then(h => {
   const map = new maplibregl.Map({
     container: "map",
-    zoom: h.maxZoom - 2,
-    center: [h.centerLat, h.centerLon],
-    minZoom: 14,
+    zoom: 15.8,
+    center: [9.724361, 53.595163],
+    minZoom: 15,
+    attributionControl: {
+      customAttribution: "Stand: 4.5.2024 21:30 - <a href=\"https://www.mws-wedel.de\">mws-wedel.de<\a>"
+    },
     maxZoom: 20,
     maxBounds: [[h.minLon, h.minLat], [h.maxLon, h.maxLat]],
     style: {
@@ -41,7 +46,8 @@ p.getHeader().then(h => {
     },
     trackUserLocation: true
   }));
-
+  map.addControl(new FullscreenControl());
+  map.addControl(new ScaleControl());
 
   map.on('load', async () => {
     // If this is not included there will be grey screens on some mobile browsers
@@ -55,7 +61,7 @@ p.getHeader().then(h => {
       map.resize()
     })
 
-    const locations = await fetchAndParseCSV("2024-05-02 Teilnehmer.csv");
+    const locations = await fetchAndParseCSV("2024-05-04 Teilnehmer.csv");
 
     // Add each location as a marker to the map
     locations.forEach((record: any) => {
