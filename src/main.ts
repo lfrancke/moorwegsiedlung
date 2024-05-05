@@ -91,6 +91,8 @@ p.getHeader().then(h => {
     }
   });
 
+  map.touchZoomRotate.disableRotation();
+
   map.addControl(new NavigationControl({
     showZoom: true,
     visualizePitch: false,
