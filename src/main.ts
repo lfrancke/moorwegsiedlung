@@ -3,8 +3,8 @@ import maplibregl, {
   FullscreenControl, NavigationControl, ScaleControl, GeolocateControl
 } from "maplibre-gl";
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { parse } from 'csv-parse/browser/esm/sync';
-import { layers } from "./layers.ts";
+import {parse} from 'csv-parse/browser/esm/sync';
+import {layers} from "./layers.ts";
 
 let BASE_URL = `${location.protocol}//${location.host}${location.pathname}`;
 let PMTILES_URL = `${BASE_URL}/2024-05-02-mws-omt.pmtiles`;
@@ -27,16 +27,15 @@ async function fetchAndParseCSV(url: string): Promise<any> {
 }
 
 async function applyFilters() {
-  const activeFilters: Set<string> = new Set(
-    Array.from(document.querySelectorAll<HTMLInputElement>(".filter:checked")).map(input => input.value)
-  );
+  const activeFilters: Set<string> = new Set(Array.from(document.querySelectorAll<HTMLInputElement>(
+    ".filter:checked")).map(input => input.value));
 
   if (activeFilters.size === 0) {
-     // If no filters are active, hide all markers
-     allMarkers.forEach(marker => {
-       marker.getElement().style.display = 'none';
-     });
-   } else {
+    // If no filters are active, hide all markers
+    allMarkers.forEach(marker => {
+      marker.getElement().style.display = 'none';
+    });
+  } else {
 
     allMarkers.forEach(marker => {
       const angebotString: string = marker.getElement().dataset.angebot || "";
@@ -51,7 +50,8 @@ async function applyFilters() {
   }
 }
 
-(document.getElementById('filters') as HTMLElement).addEventListener('change', () => applyFilters());
+(document.getElementById('filters') as HTMLElement).addEventListener('change',
+  () => applyFilters());
 const header = document.getElementById('filter-header');
 if (header) {
   header.addEventListener('click', () => {
@@ -91,7 +91,11 @@ p.getHeader().then(h => {
     }
   });
 
-  map.addControl(new NavigationControl({}), 'top-right');
+  map.addControl(new NavigationControl({
+    showZoom: true,
+    visualizePitch: false,
+    showCompass: false
+  }), 'top-right');
   map.addControl(new GeolocateControl({
     positionOptions: {
       enableHighAccuracy: true
