@@ -67,6 +67,7 @@ if (header) {
 p.getHeader().then(h => {
   const map = new maplibregl.Map({
     container: "map",
+    dragRotate: false,
     zoom: 15.8,
     center: [9.724361, 53.595163],
     minZoom: 15,
