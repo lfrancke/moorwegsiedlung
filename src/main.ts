@@ -5,6 +5,10 @@ import maplibregl, {
 import 'maplibre-gl/dist/maplibre-gl.css';
 import {parse} from 'csv-parse/browser/esm/sync';
 import {layers} from "./layers.ts";
+import {
+  MaplibreExportControl, Size, PageOrientation, Format, DPI
+} from '@watergis/maplibre-gl-export';
+import '@watergis/maplibre-gl-export/dist/maplibre-gl-export.css';
 
 let BASE_URL = `${location.protocol}//${location.host}${location.pathname}`;
 let PMTILES_URL = `${BASE_URL}/2024-05-02-mws-omt.pmtiles`;
@@ -92,6 +96,18 @@ p.getHeader().then(h => {
   });
 
   map.touchZoomRotate.disableRotation();
+
+  const exportControl = new MaplibreExportControl({
+    PageSize: Size.A3,
+    PageOrientation: PageOrientation.Portrait,
+    Format: Format.PNG,
+    DPI: DPI[96],
+    Crosshair: true,
+    PrintableArea: true,
+    Local: 'en',
+
+  });
+  map.addControl(exportControl, 'top-right');
 
   map.addControl(new NavigationControl({
     showZoom: true,
