@@ -9,13 +9,13 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@watergis/maplibre-gl-export": "^3.8.2",
-    "typescript": "^5.5.4",
-    "vite": "^5.3.5"
+    "@watergis/maplibre-gl-export": "^3.8.3",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.6"
   },
   "dependencies": {
     "csv-parse": "^5.5.6",
-    "maplibre-gl": "^4.5.1",
+    "maplibre-gl": "^4.7.0",
     "pmtiles": "^3.0.7"
   }
 }
