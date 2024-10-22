@@ -2,6 +2,20 @@
 
 This is deployed at: https://lfrancke.github.io/moorwegsiedlung/
 
+## Development
+       
+### Running
+
+```
+npm run dev
+```
+
+### Update dependencies
+
+```
+ncu
+```
+
 ## Fonts
 
 I followed the [instructions](https://docs.protomaps.com/basemaps/maplibre#fonts) on the docs page to download the necessary fonts locally: https://codeload.github.com/protomaps/basemaps-assets/zip/refs/heads/main
@@ -75,7 +89,7 @@ To create a custom map, which includes features that are not part of the pre-bui
 
 # TODO
 
-The map style uses an old syntax and needs to be migrated using 
+The map style uses an old syntax and needs to be migrated using TODO 
                                                                 
 # Credits
 
